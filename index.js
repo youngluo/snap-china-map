@@ -164,36 +164,51 @@
             var result = this._copy(oldObj);
 
             for (var newKey in newObj) {
-                for (var oldKey in result) {
-                    result[newKey] = newObj[newKey];
-                }
+                result[newKey] = newObj[newKey];
             }
 
             return result;
         }
 
-        function Map(options) {
+        function Map() {
 
             this.version = '0.0.1';
 
-            this.options = options;
-
             //hover callback
             this.hover = function () {}
-
-            this._init();
-
-            return this;
         }
 
         var MapFn = Map.prototype;
 
-        MapFn._init = function () {
+        MapFn._init = function (options) {
+
+            this.wrapperDom = doc.getElementById(options.id);
+
+            //this.wrapperDom.style.position = 'relative';
+
+            var _defaultOptions = {
+                id: '',
+                pathes: _pathes,
+                width: this.wrapperDom.scrollWidth,
+                height: this.wrapperDom.scrollHeight,
+                backgroundColor: '#b1b1b1',
+                borderColor: '#fff',
+                borderWidth: 1,
+                scale: 1,
+                hoverColor: '#20bad6'
+            }
+
+            this.options = Helper._merge(_defaultOptions, options);
+
             this.svg = $(this.options.width, this.options.height);
 
-            this.svg.appendTo(this.options.wrapperDom);
+            this.svg.appendTo(this.wrapperDom);
 
             this._drawMap();
+
+            this.label = this._createLabel();
+
+            return this;
         }
 
         MapFn._drawMap = function () {
@@ -208,10 +223,30 @@
                         stroke: self.options.borderColor,
                         strokeWidth: self.options.borderWidth
                     })
-                    .hover(self._hoverInFn.bind(self), self._hoverOutFn.bind(self));
+                    .hover(self._hoverInFn.bind(self), self._hoverOutFn.bind(self))
+                    .mousemove(self._setLabelPosition.bind(self));
 
                 g.add(path);
             }
+        }
+
+        MapFn._createLabel = function () {
+            var label = doc.createElement('div')
+
+            label.id = 'china-map-label';
+            label.style.position = 'absolute';
+            label.style.display = 'none';
+
+            this.wrapperDom.appendChild(label);
+
+            return label;
+        }
+
+        MapFn._setLabelPosition = function (e) {
+            var margin = 2;
+
+            this.label.style.left = e.pageX - this.label.offsetWidth - margin + 'px';
+            this.label.style.top = e.pageY - this.label.offsetHeight - margin + 'px';
         }
 
         MapFn._hoverInFn = function (e) {
@@ -222,12 +257,18 @@
                 fill: self.options.hoverColor
             });
 
-            this.hover(path);
+            this.label.textContent = path.attr('name');
+
+            this.label.style.display = 'block';
+
+            this.hover(path, this.label);
         }
 
         MapFn._hoverOutFn = function (e) {
             var self = this,
                 path = $(e.target);
+
+            this.label.style.display = 'none';
 
             path.attr({
                 fill: self.options.backgroundColor
@@ -246,22 +287,7 @@
                 throw new Error('must specify id');
             }
 
-            var dom = doc.getElementById(options.id),
-
-                defaultOptions = {
-                    id: '',
-                    pathes: _pathes,
-                    wrapperDom: dom,
-                    width: dom.scrollWidth,
-                    height: dom.scrollHeight,
-                    backgroundColor: '#b1b1b1',
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                    scale: 1,
-                    hoverColor: '#20bad6'
-                }
-
-            return new Map(Helper._merge(defaultOptions, options));
+            return (new Map())._init(options);
         }
 
     });
@@ -272,7 +298,8 @@ var map = Snap.chinaMap({
     id: 'map'
 });
 
-map.hover = function (path) {
-}
+/*map.hover = function (path, label) {
+    console.log(label.textContent)
+}*/
 
 console.log(map)

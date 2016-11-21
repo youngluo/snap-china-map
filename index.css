@@ -3,3 +3,9 @@
     height: 300px;
     border: solid 1px #b1b1b1;
 }
+
+#china-map-label {
+    padding: 5px;
+    border: solid 1px #ccc;
+    background-color: #d7d7d7;
+}
