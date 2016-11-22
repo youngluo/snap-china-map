@@ -171,6 +171,23 @@
             return result;
         }
 
+        Helper._getElementAbsolutePos = function (ele) {
+            var offsetLeft = ele.offsetLeft,
+                offsetTop = ele.offsetTop,
+                curOffsetParent = ele.offsetParent;　
+
+            while (curOffsetParent !== null) {　　　　　　
+                offsetLeft += curOffsetParent.offsetLeft;
+                offsetTop += curOffsetParent.offsetTop;
+                curOffsetParent = curOffsetParent.offsetParent;　　　　
+            }　　
+
+            return {
+                left: offsetLeft,
+                top: offsetTop
+            };　　
+        }
+
         function Map() {
 
             this.version = '0.0.1';
@@ -224,17 +241,19 @@
                         stroke: self.options.borderColor,
                         strokeWidth: self.options.borderWidth
                     })
-                    .hover(self._hoverInFn.bind(self), self._hoverOutFn.bind(self))
-                    .mousemove(self._setLabelPosition.bind(self));
+                    .hover(self._hoverInFn.bind(self), self._hoverOutFn.bind(self));
 
                 g.add(path);
             }
+
+            g.mousemove(self._setLabelPosition.bind(self));
 
             var gBox = g.getBBox(),
                 x = (self.options.width - gBox.width * self.options.scale) / 2 - gBox.x * self.options.scale,
                 y = (self.options.height - gBox.height * self.options.scale) / 2 - gBox.y * self.options.scale;
 
             g.transform('translate(' + x + ',' + y + ') scale(' + self.options.scale + ')');
+
         }
 
         MapFn._createLabel = function () {
@@ -250,10 +269,11 @@
         }
 
         MapFn._setLabelPosition = function (e) {
-            var margin = 2;
+            var margin = 5,
+                pos = Helper._getElementAbsolutePos(this.wrapperDom);
 
-            this.label.style.left = e.offsetX - this.label.offsetWidth - margin + 'px';
-            this.label.style.top = e.offsetY - this.label.offsetHeight - margin + 'px';
+            this.label.style.left = e.pageX - pos.left - this.label.offsetWidth - margin + 'px';
+            this.label.style.top = e.pageY - pos.top - this.label.offsetHeight - margin + 'px';
         }
 
         MapFn._hoverInFn = function (e) {
