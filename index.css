@@ -5,6 +5,7 @@
 }
 
 .china-map-label {
+    box-sizing: border-box;
     font-size: 14px;
     padding: 5px;
     border: solid 1px #ccc;

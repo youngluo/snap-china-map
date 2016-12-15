@@ -235,17 +235,17 @@
 
             for (var province in pathes) {
                 var path = self.svg.path(pathes[province])
-                    .hover(self._hoverInFn.bind(self), self._hoverOutFn.bind(self))
+                    .hover(self._hoverInFn, self._hoverOutFn, self)
 
                 g.add(path);
             }
 
-            g.mousemove(self._setLabelPosition.bind(self))
-                .attr({
+            g.attr({
                     fill: self.options.backgroundColor,
                     stroke: self.options.borderColor,
                     strokeWidth: self.options.borderWidth
-                });
+                })
+                .mousemove(self._setLabelPosition, self);
 
             var gBox = g.getBBox(),
                 x = (self.options.width - gBox.width * self.options.scale) / 2 - gBox.x * self.options.scale,
@@ -259,7 +259,7 @@
 
             label.className = 'china-map-label';
             label.style.position = 'absolute';
-            label.style.display = 'none';
+            label.style.opacity = 0;
 
             this.wrapperDom.appendChild(label);
 
@@ -284,7 +284,7 @@
 
             this.label.textContent = path.attr('name');
 
-            this.label.style.display = 'block';
+            this.label.style.opacity = 1;
 
             this.hover(path, this.label);
         }
@@ -293,7 +293,7 @@
             var self = this,
                 path = $(e.target);
 
-            this.label.style.display = 'none';
+            this.label.style.opacity = 0;
 
             path.attr({
                 fill: self.options.backgroundColor
@@ -317,6 +317,6 @@ var map = Snap.chinaMap({
     id: 'map'
 });
 
-map.hover = function (path, label) {
+/*map.hover = function (path, label) {
     label.textContent += '--haha'
-}
+}*/
