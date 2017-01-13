@@ -17,14 +17,25 @@
 
 <body>
     <div id="map"></div>
+    <button id="setColors">设置颜色</button>
     <script src="../snap-china-map.js"></script>
     <script>
         var map = Snap.chinaMap({
             id: 'map'
         });
+        console.log(map)
 
         map.hover = function (path, label) {
             label.textContent += '--haha'
+        }
+
+        var colors = {
+            '350000': '#2d6f3c',
+            '710000': '#4fb967'
+        };
+
+        document.getElementById('setColors').onclick = function () {
+            map.setColors(colors);
         }
     </script>
 </body>
