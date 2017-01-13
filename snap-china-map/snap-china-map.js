@@ -259,7 +259,7 @@
 
             label.className = 'china-map-label';
             label.style.position = 'absolute';
-            label.style.opacity = 0;
+            label.style.visibility = 'hidden';
 
             this.wrapperDom.appendChild(label);
 
@@ -284,7 +284,7 @@
 
             this.label.textContent = path.attr('name');
 
-            this.label.style.opacity = 1;
+            this.label.style.visibility = 'visible';
 
             this.hover(path, this.label);
         }
@@ -293,7 +293,7 @@
             var self = this,
                 path = $(e.target);
 
-            this.label.style.opacity = 0;
+            this.label.style.visibility = 'hidden';
 
             path.attr({
                 fill: self.options.backgroundColor
@@ -312,11 +312,3 @@
     });
 
 }(Snap, window, document));
-
-var map = Snap.chinaMap({
-    id: 'map'
-});
-
-/*map.hover = function (path, label) {
-    label.textContent += '--haha'
-}*/

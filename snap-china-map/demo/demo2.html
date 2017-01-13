@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="../snap-china-map.css">
+    <style>
+        #map-wrapper {
+            height: 500px;
+            border: solid 1px #b1b1b1;
+        }
+        
+        .map {
+            float: left;
+            width: 50%;
+            height: 100%;
+        }
+    </style>
+    <script src="../../snap/snap.svg.js"></script>
+</head>
+
+<body>
+    <div id="map-wrapper">
+        <div id="map1" class="map"></div>
+        <div id="map2" class="map"></div>
+    </div>
+    <script src="../snap-china-map.js"></script>
+    <script>
+        var map1 = Snap.chinaMap({
+            id: 'map1',
+            backgroundColor: '#6ac277',
+            hoverColor: '#79dd87',
+        });
+
+        var map2 = Snap.chinaMap({
+            id: 'map2',
+            scale: 1,
+        });
+
+        map1.hover = function (path, label) {
+            label.textContent += '--map1'
+        }
+
+        map2.hover = function (path, label) {
+            label.textContent += '--map2'
+        }
+    </script>
+</body>
+
+</html>
