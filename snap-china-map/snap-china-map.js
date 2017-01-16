@@ -1,7 +1,7 @@
 ;
-(function (Snap, win, doc) {
+(function (Snap, doc) {
 
-    Snap.plugin(function ($, Element, Paper, glob, Fragment) {
+    Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
 
         var _pathes = [
             {
@@ -225,18 +225,19 @@
             return true;
         }
 
-        function Map() {
+        function Map(options) {
 
-            this.version = '0.0.1';
+            this._init(options);
 
             //callback
             this.hover = function () {}
+
+            return this;
         }
 
         var MapFn = Map.prototype;
 
         MapFn._init = function (options) {
-
             this.wrapperDom = doc.getElementById(options.id);
 
             this.wrapperDom.style.position = 'relative';
@@ -255,18 +256,16 @@
 
             this.options = Helper._merge(_defaultOptions, options);
 
-            this.svg = $(this.options.width, this.options.height);
+            this.svg = Snap(this.options.width, this.options.height);
 
             this.svg.appendTo(this.wrapperDom);
 
             this._drawMap();
 
             this.label = this._createLabel();
-
-            return this;
         }
 
-        MapFn._drawMap = function (colors) {
+        MapFn._drawMap = function () {
             var self = this,
                 pathes = self.options.pathes,
                 g = self.svg.g();
@@ -312,7 +311,12 @@
 
         MapFn._hoverInFn = function (e) {
             var self = this,
-                path = $(e.target);
+                path = Snap(e.target);
+
+            if (path.data('isSetColor')) {
+                path.data('color', path.attr('fill'))
+                    .removeData('isSetColor')
+            }
 
             path.attr({
                 fill: self.options.hoverColor
@@ -327,33 +331,56 @@
 
         MapFn._hoverOutFn = function (e) {
             var self = this,
-                path = $(e.target);
+                path = Snap(e.target);
 
             this.label.style.visibility = 'hidden';
 
+            var fill = path.data('color') ? path.data('color') : self.options.backgroundColor;
+
             path.attr({
-                fill: self.options.backgroundColor
+                fill: fill
             });
         }
 
         MapFn.setColors = function (colors) {
-            if (!$.is(colors, 'object') || Helper._isEmptyObject(colors)) {
+            if (!Snap.is(colors, 'object') || Helper._isEmptyObject(colors)) {
                 return false;
             }
 
             var paths = this.svg.selectAll('path');
 
+            for (var code in colors) {
+                paths.forEach(function (path) {
+                    if (code == path.attr('code')) {
+                        path.attr({
+                                fill: colors[code]
+                            })
+                            .data('isSetColor', true);
+
+                        return false;
+                    }
+                });
+            }
+
+            return this;
         }
 
-        $.chinaMap = function (options) {
+        MapFn.refresh = function () {
+            this.svg.clear();
+            this._drawMap();
+
+            return this;
+        }
+
+        Snap.chinaMap = function (options) {
 
             if (!options.id) {
                 throw new Error('must specify id');
             }
 
-            return (new Map())._init(options);
+            return new Map(options);
         }
 
     });
 
-}(Snap, window, document));
+}(Snap, document));

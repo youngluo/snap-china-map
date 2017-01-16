@@ -18,15 +18,15 @@
 <body>
     <div id="map"></div>
     <button id="setColors">设置颜色</button>
+    <button id="refresh">刷新</button>
     <script src="../snap-china-map.js"></script>
     <script>
         var map = Snap.chinaMap({
             id: 'map'
         });
-        console.log(map)
 
         map.hover = function (path, label) {
-            label.textContent += '--haha'
+            label.textContent += '--hahaha';
         }
 
         var colors = {
@@ -36,6 +36,10 @@
 
         document.getElementById('setColors').onclick = function () {
             map.setColors(colors);
+        }
+
+        document.getElementById('refresh').onclick = function () {
+            map.refresh();
         }
     </script>
 </body>
