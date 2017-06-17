@@ -33,9 +33,12 @@
 
 ## NPM
 
-安装：｀npm i snapsvg snap-china-map -S｀
+安装：`npm i snapsvg snap-china-map -S`
+
 使用：
+
     import 'snap-china-map';
+
     var map = Snap.chinaMap({
             id: 'map'
         });
