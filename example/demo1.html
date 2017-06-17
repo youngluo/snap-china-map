@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link rel="stylesheet" href="../snap-china-map.css">
     <style>
         #map {
             width: 500px;
@@ -12,14 +11,14 @@
             border: solid 1px #ccc;
         }
     </style>
-    <script src="../../snap/snap.svg.js"></script>
 </head>
 
 <body>
     <div id="map"></div>
     <button id="setColors">设置颜色</button>
     <button id="refresh">刷新</button>
-    <script src="../snap-china-map.js"></script>
+    <script src="../node_modules/snapsvg/dist/snap.svg-min.js"></script>
+    <script src="../dist/snap-china-map.js"></script>
     <script>
         var map = Snap.chinaMap({
             id: 'map'

@@ -1,0 +1,8 @@
+A china map plugin by Snap.svg.
+
+Bundle of <%= pkg.name %>
+Date: <%= moment().format('YYYY-MM-DD') %>
+Version: <%= pkg.version %>
+Author: Young Luo
+
+Copyright © 2017 Young Luo.

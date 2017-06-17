@@ -1,0 +1,37 @@
+{
+  "name": "snap-china-map",
+  "version": "1.0.0",
+  "description": "A china map plugin by Snap.svg",
+  "main": "./dist/snap-china-map.min.js",
+  "scripts": {
+    "start": "npm run dev && npm run prod",
+    "dev": "rollup -c rollup.config.js",
+    "prod": "rollup -c rollup.config.js --environment build:production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youngluo/snap-chinaMap.git"
+  },
+  "keywords": [
+    "snap",
+    "china",
+    "map"
+  ],
+  "author": "Young Luo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/youngluo/snap-chinaMap/issues"
+  },
+  "homepage": "https://github.com/youngluo/snap-chinaMap#readme",
+  "devDependencies": {
+    "babel-preset-latest": "^6.24.1",
+    "cssnano": "^3.10.0",
+    "rollup": "^0.43.0",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-conditional": "^1.1.1",
+    "rollup-plugin-license": "^0.4.0",
+    "rollup-plugin-postcss": "^0.5.3",
+    "rollup-plugin-uglify": "^2.0.1",
+    "snapsvg": "^0.5.1"
+  }
+}
