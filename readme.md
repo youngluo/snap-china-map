@@ -13,14 +13,13 @@
         ...
     ]
     
-## 使用
+## 直接使用
     
     html:
     
-    <link rel="stylesheet" href="../snap-china-map.css">
     <div id="map"></div>
-    <script src="../snap/snap.svg.js"></script>
-    <script src="snap-china-map.js"></script>
+    <script src="./[path]/snap.svg.js"></script>
+    <script src="./[path]/snap-china-map.js"></script>
     
     js:
     
@@ -32,7 +31,14 @@
             label.textContent += '--hahaha';
         }
 
-    
+## NPM
+
+安装：｀npm i snapsvg snap-china-map -S｀
+使用：
+    import 'snap-china-map';
+    var map = Snap.chinaMap({
+            id: 'map'
+        });
     
 ## 默认配置
 
