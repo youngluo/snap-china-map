@@ -62,7 +62,7 @@
 - path {DOM}: 当前移入的路径；
 - label {DOM}: 移入时显示的提示框。
 
-## method
+## 方法
 
 ### setColors(colors)
 
